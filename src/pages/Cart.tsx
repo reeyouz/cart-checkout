@@ -2,7 +2,7 @@ import React from "react";
 import Button from "@mui/material/Button";
 import { CartItemList } from "../components";
 import { useStore } from "../store";
-import { Grid, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 export function Cart() {
   const [subTotal, setSubtotal] = React.useState(0);
