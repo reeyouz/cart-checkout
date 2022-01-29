@@ -64,12 +64,20 @@ export function StoreProvider(props: StoreProps) {
   };
   const checkout = async () => {
     try {
-      const res = await fetch("https://janam.free.beeceptor.com/", {
+      await fetch("https://janam.free.beeceptor.com/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(state),
+        body: JSON.stringify({
+          orderId: Date.now(),
+          orderTotal: state.reduce(
+            (total, order) =>
+              total + order.quantity * order.product.productPrice,
+            0
+          ),
+          orders: state,
+        }),
       });
       resetStore();
     } catch (error) {
@@ -77,10 +85,7 @@ export function StoreProvider(props: StoreProps) {
     }
   };
 
-  const value = React.useMemo(
-    () => ({ orders: state, addToCart, checkout }),
-    [state]
-  );
+  const value = { orders: state, addToCart, checkout };
   return <StoreContext.Provider {...rest} value={value} />;
 }
 
